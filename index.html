@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>insanely fire game 100% trust</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="desktop">
+        <img src="images/BackgroundImg.png" id="wallpaper">
+
+        <img src="images/FishButton.png" id="fishButton" onclick="appAppears()">
+
+        <div class="icon" id="musicApp" ondblclick="openApp('musicWindow')">
+            <img src="images/MusicAppIcon.png">
+            <div>Music App</div>
+        </div>
+        <div class="icon" id="document_1" ondblclick="openApp('document1Window')">
+            <img src="images/DocumentIcon.png">
+            <div>Read Me!.txt</div>
+        </div>
+        <div class="icon" id="document_2" ondblclick="openApp('secretPassword')">
+            <img src="images/DocumentIcon.png">
+            <div>Secret.txt</div>
+        </div>
+        <div class="icon" id="aliveFish">
+            <img src="images/aliveFishImg.png">
+            <div>Fish!!!</div>
+        </div>
+        <div class="icon" id="recycleBin" ondblclick="openApp('recycleBinWindow')">
+            <img src="images/RecycleIcon.png">
+            <div>Secret.txt</div>
+        </div>
+        <div class="icon" id="picture_1" ondblclick="openApp('picture1Window')">
+            <img src="images/image_editor.png">
+            <div>Secret.txt</div>
+        </div>
+        <div class="icon" id="keys">
+            <img src="images/keys.png">
+            <div>Secret.txt</div>
+        </div>
+        <div class="icon" id="messages" ondblclick="openApp('loginWindow')">
+            <img src="images/messages.png">
+            <div>Messenger.exe</div>
+        </div>
+        <div class="icon" id="starfish" ondblclick="openApp('starfishWindow')">
+            <img src="images/starfish.png">
+            <div>Starfish.exe</div>
+        </div>
+        <div class="icon" id="collage" ondblclick="openApp('collageWindow')">
+            <img src="images/collage.png">
+            <div>Collage.exe</div>
+        </div>
+        <div class="icon" id="whiteCat">
+            <img src="images/whiteCat.png">
+            <div>Kitty</div>
+        </div>
+        <div class="icon" id="minesweeper" ondblclick="openApp('minesweeperWindow')">
+            <img src="images/Minesweeper.png">
+            <div>Minesweeper</div>
+        </div>
+    </div>
+
+    <div id="musicWindow">
+        <div class="topbar">
+            <div>Music Player</div>
+            <div class="close" onclick="closeApp('musicWindow')">X</div>
+        </div>
+        <div class="content">
+            <img id="cover" src="images/CT1.jpg">
+
+            <h3 id="title">Song 1</h3>
+
+            <audio id="audio"></audio>
+            <div class="controls">
+                <button onclick="prevSong()">⏮</button>
+                <button onclick="togglePlay()">▶ / ⏸</button>
+                <button onclick="nextSong()">⏭</button>
+            </div>
+            <div id="playlist"></div>
+        </div>
+    </div>
+
+    <div id="document1Window" class="window">
+        <div class="topbardoc">
+            <div id="document_1">Read Me!.txt</div>
+            <div class="close" onclick="closeApp('document1Window')">X</div>
+        </div>
+        <div class="doc-content">
+            <div class="text">
+                Hi Reign, <br><br> this is merely a greeting note for this project that I made for your 20th. <br><br>
+                Being 20 is a big
+                number isn't it?<br><br> Wanna make a guess at when this note is written? HAHA<br><br> As I am writing
+                this now, it is currently the 11th of July here, a few days before your
+                class officially starts.<br><br> So when you receive this from me, you should be nearing the end of your
+                semester & I hope
+                that you enjoyed your lessons.<br><br> Anyways, as you go through this game, forgive the bugs if you
+                catch any. It's a first for
+                me.<br><br> Also about the storyline, I know it's cringy, I wrote it but if you try to make comments
+                about this to me when you're done, please don't comment on the story because I don't want to hear about
+                it...</div>
+        </div>
+    </div>
+
+    <div id="secretPassword">
+        <div class="secrettopbar">
+            <div id="secretMessage">Secret.txt</div>
+            <div class="close" onclick="closeApp('secretPassword')">X</div>
+        </div>
+        <div class="secretContainer">
+            <div id="secretTitle">This document has been password-protected with a 4 digit code</div>
+            <input type="text" id="passwordToCheck">
+            <button onclick="checkPassword()">Enter</button>
+            <p id="error"></p>
+        </div>
+    </div>
+
+    <div id="document2Window" class="window">
+        <div class="topbardoc">
+            <div id="document_2">Secret.txt</div>
+            <div class="close" onclick="closeApp('document2Window')">X</div>
+        </div>
+        <div class="doc-content">
+            <div class="text">Wow! Everyone lets give 3 big booms to rin for being able to solve this...!!!</div>
+        </div>
+    </div>
+
+    <div id="loginWindow" class="loginWindow">
+        <div class="logintopbar">
+            <div class="close" onclick="closeApp('loginWindow')">X</div>
+            <div class="loginTitle">Messenger.exe - Login</div>
+        </div>
+        <div class="loginContainer">
+            <input type="text" id="messageAccount" placeholder="Username">
+            <input type="password" id="messagePassword" placeholder="Password">
+            <button onclick="checkMessagePassword()">
+                Login
+            </button>
+            <p id="errorMessage"></p>
+        </div>
+
+    </div>
+
+    <div id="buddyWindow" class="window">
+
+        <div class="topbardoc">
+            <div>Messenger.exe</div>
+            <div class="close" onclick="closeApp('buddyWindow')">X</div>
+        </div>
+
+        <div class="buddyContainer">
+
+            <!-- Buddy List -->
+            <div id="buddyList">
+                <!-- JavaScript will create buddies here -->
+            </div>
+
+            <!-- Chat Area -->
+            <div id="chatArea">
+                <div id="chatMessages">
+                    <!-- JavaScript will create messages here -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="collageWindow" class="window">
+        <div id="collageContainer">
+            <div class="close" onclick="closeApp('collageWindow')">X</div>
+            <img id="collageImage" src="images/collage.png">
+            <button class="note" id="note1" onclick="openNotes('note1Window')"></button>
+            <button class="note" id="note2" onclick="openNotes('note2Window')"></button>
+            <button class="note" id="note3" onclick="openNotes('note3Window')"></button>
+            <button class="note" id="note4" onclick="openNotes('note4Window')"></button>
+            <button class="note" id="note5" onclick="openNotes('note5Window')"></button>
+            <button class="note" id="note6" onclick="openNotes('note6Window')"></button>
+        </div>
+    </div>
+
+    <div id="note1Window" class="notes">
+        <div id="note1Container">
+            <div class="close" onclick="closeNotes('note1Window')">X</div>
+            <div class="noteTitle">TO-DO List</div>
+            <br>
+            <div class="text">1. Get a life <br><br> 2. Stop being a dweeb <br><br> 3. Feed the kitty </div>
+        </div>
+    </div>
+
+    <div id="note2Window" class="notes">
+        <div id="note2Container">
+            <div class="close" onclick="closeNotes('note2Window')">X</div>
+            <div class="noteTitle"></div>
+            <div class="text">Note to self: <br> Remove the image on <br> the PC</div>
+        </div>
+    </div>
+
+    <div id="note3Window" class="notes">
+        <div id="note3Container">
+            <div class="close" onclick="closeNotes('note3Window')">X</div>
+            <div class="noteTitle">Since someone clearly likes me so much <br> isn't it lad? <br>
+                HERS'S YOUR MESSENGER PASSWORD</div>
+            <br>
+            <div class="text">Username: KellyLover <br> Password: OhManKellyIsSOSOGREAT</div>
+        </div>
+    </div>
+
+    <div id="note4Window" class="notes">
+        <div id="note4Container">
+            <div class="close" onclick="closeNotes('note4Window')">X</div>
+            <div class="text"> https://vt.tiktok. <br> com/ZSXA31qDj/</div>
+        </div>
+    </div>
+
+    <div id="note5Window" class="notes">
+        <div id="note5Container">
+            <div class="close" onclick="closeNotes('note5Window')">X</div>
+            <div class="noteTitle">♫⋆｡♪ ₊˚♬ ﾟ.</div>
+            <br>
+            <div class="text">1st, 2nd Word <br> 5th, 1st Word <br> Length of 2nd + 3rd <br><br> Password: 3,1,2</div>
+        </div>
+    </div>
+
+    <div id="note6Window" class="notes">
+        <div id="note6Container">
+            <div class="close" onclick="closeNotes('note6Window')">X</div>
+            <div class="noteTitle">Probably not a good idea to put passwords here, huh?</div>
+            <br>
+            <div class="text">Username: rin <br> Password: DidYouReallyThinkI'llWriteItHere</div>
+        </div>
+    </div>
+
+    <div id="minesweeperWindow">
+        <div class="close" onclick="closeApp('minesweeperWindow')">X</div>
+
+        <div id="minesweeperContainer"></div>
+    </div>
+
+    <audio id="clickSound" src="songs/click.mp3"></audio>
+</body>
