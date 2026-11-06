@@ -973,6 +973,10 @@ img#cover {
     box-sizing: border-box;
     font-size: 20px;
     overflow-wrap: break-word;
+    border: 4px solid rgba(189, 189, 189, 1);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
 }
 
 .mine-note .topbardoc .close {
