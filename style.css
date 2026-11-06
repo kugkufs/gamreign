@@ -916,6 +916,7 @@ img#cover {
     height: 80px;
 }
 
+
 #minesweeperContainer {
     display: grid;
 
@@ -950,4 +951,36 @@ img#cover {
 
     border: 1px solid black;
     background-color: gray;
+}
+
+.mine-note {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    min-height: 220px;
+    background: #c6c6c6;
+    border: 3px solid #777;
+    box-sizing: border-box;
+    z-index: 10001;
+}
+
+.mine-note-content {
+    background: white;
+    color: black;
+    min-height: 170px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 20px;
+    overflow-wrap: break-word;
+}
+
+.mine-note .topbardoc .close {
+    position: absolute;
+    right: 8px;
+    top: 5px;
+    margin: 0;
+    cursor: pointer;
 }
