@@ -916,6 +916,13 @@ img#cover {
     height: 80px;
 }
 
+#minesweeper {
+    display: none;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+}
+
 #minesweeperContainer {
     display: grid;
 
