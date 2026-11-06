@@ -136,9 +136,9 @@ const accounts = {
         buddies: ["Kelly"]
     },
 
-    Kel: {
-        password: "123",
-        buddies: ["Rat-rin", "xxxxism"]
+    Kelly: {
+        password: "Emerald",
+        buddies: ["Rat-rin", "xxxx"]
     }
 };
 
@@ -314,15 +314,15 @@ const conversations = {
         ],
         xxxxism: [
             {
-                sender: "xxxxism",
+                sender: "xxxx",
                 text: "DUDE"
             },
             {
-                sender: "xxxxism",
+                sender: "xxxx",
                 text: "DUDE"
             },
             {
-                sender: "xxxxism",
+                sender: "xxxx",
                 text: "DUDE GET IN PLS"
             },
             {
@@ -330,7 +330,7 @@ const conversations = {
                 text: "what do you want bro stop spamming me plz."
             },
             {
-                sender: "xxxxism",
+                sender: "xxxx",
                 text: "Uhh so you know how I was supposed to go get the key like ten minutes ago for your friend."
             },
             {
@@ -338,7 +338,7 @@ const conversations = {
                 text: "yeas... did something happen??"
             },
             {
-                sender: "xxxxism",
+                sender: "xxxx",
                 text: "So, hypothetically, what would happen if the key were to be lost..."
             },
             {
@@ -346,27 +346,27 @@ const conversations = {
                 text: "LOL??? SORRY WHAT LMAOOO WDYM LOST"
             },
             {
-                sender: "xxxxism",
-                text: "Okay bro, it's gone dude the key is gone missing it has disappeared into thin air."
+                sender: "xxxx",
+                text: "Okay bro, it's gone dude the key has gone missing it disappeared into thin air."
             },
             {
                 sender: "Kel",
                 text: "anyone tell you not to pick standup comedy for a job?"
             },
             {
-                sender: "xxxxism",
+                sender: "xxxx",
                 text: "I'm not joking around. It's really missing."
             },
             {
                 sender: "Kel",
-                text: "dude I'm gonna shove a stick up your ass."
+                text: "I'm going to kill you."
             },
             {
                 sender: "Kel",
                 text: "how the hell is it missing when we tested it just fine an hour ago???"
             },
             {
-                sender: "xxxxism",
+                sender: "xxxx",
                 text: "I don't know, but I swear it wasn't by my hands."
             },
             {
@@ -374,7 +374,7 @@ const conversations = {
                 text: "Yeah, okay. So what am I supposed to do now with her on the other end waiting for the key I mentioned?"
             },
             {
-                sender: "xxxxism",
+                sender: "xxxx",
                 text: "Well, I suppose you can quickly construct a new key...??"
             },
             {
@@ -472,13 +472,14 @@ const apps = {
     document_2: { row: 1, col: 1 },
     aliveFish: { row: 3, col: 4 },
     recycleBin: { row: 0, col: 0 },
-    picture_1: { row: 1, col: 2 },
+    picture_1: { row: 3, col: 2 },
     keys: { row: null, col: null },
     messages: { row: 2, col: 1 },
     starfish: { row: 3, col: 0 },
     collage: { row: 2, col: 2 },
     whiteCat: { row: 3, col: 1 },
-    minesweeper: { row: 3, col: 2 }
+    minesweeper: { row: null, col: null },
+    closedFolder: { row: 1, col: 2 }
 };
 
 windows.forEach(win => {
@@ -674,11 +675,68 @@ document.addEventListener("mouseup", function (event) {
         keys.classList.add("pop");
     };
 
+    if (dragging.id == "keys" && newCol == apps.closedFolder.col && newRow == apps.closedFolder.row) {
+        console.log("key found folder");
+
+        let folder;
+        let key;
+
+        folder = document.getElementById("closedFolder");
+        key = document.getElementById("keys");
+
+        folder.remove();
+        key.remove();
+
+        delete apps.closedFolder;
+        delete apps.keys;
+
+        newMinesweeper = document.getElementById("minesweeper");
+        newMinesweeper.style.display = "block";
+
+        apps.minesweeper.row = newRow;
+        apps.minesweeper.col = newCol;
+        moveIcon("minesweeper");
+
+        minesweeper.classList.remove("pop");
+
+        void minesweeper.offsetWidth;
+
+        minesweeper.classList.add("pop");
+    };
+
+    if (dragging.id == "closedFolder" && newCol == apps.keys.col && newRow == apps.keys.row) {
+        console.log("folder found key");
+
+        let folder;
+        let key;
+
+        folder = document.getElementById("closedFolder");
+        key = document.getElementById("keys");
+
+        folder.remove();
+        key.remove();
+
+        delete apps.closedFolder;
+        delete apps.keys;
+
+        newMinesweeper = document.getElementById("minesweeper");
+        newMinesweeper.style.display = "block";
+
+        apps.minesweeper.row = newRow;
+        apps.minesweeper.col = newCol;
+        moveIcon("minesweeper");
+
+        minesweeper.classList.remove("pop");
+
+        void minesweeper.offsetWidth;
+
+        minesweeper.classList.add("pop");
+    };
+
     console.log("finished");
 
     dragging = null;
 });
-
 const mineROWS = 16;
 const mineCOLS = 16;
 const mineBOMBS = 40;
