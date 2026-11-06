@@ -960,7 +960,6 @@ img#cover {
     transform: translate(-50%, -50%);
     width: 340px;
     min-height: 220px;
-    background: #c6c6c6;
     box-sizing: border-box;
     z-index: 10001;
 }
@@ -977,7 +976,6 @@ img#cover {
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }
-}
 
 .mine-note .topbardoc .close {
     position: absolute;
@@ -986,4 +984,3 @@ img#cover {
     margin: 0;
     cursor: pointer;
 }
-
