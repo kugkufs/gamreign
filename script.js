@@ -681,43 +681,50 @@ document.addEventListener("mouseup", function (event) {
 
 const mineROWS = 16;
 const mineCOLS = 16;
+const mineBOMBS = 40;
+
 let actualBombs = 0;
 let board = [];
 
-function revealZeros(row, col, tiles) {
 
-    if (row < 0 || row >= mineROWS || col < 0 || col >= mineCOLS) {
+let minesweeperStage = 1;
+let completedMineStages = [false, false];
+let lastBuiltMineStage = 0;
+
+function revealZeros(row, col, tiles) {
+    if (
+        row < 0 || row >= mineROWS ||
+        col < 0 || col >= mineCOLS
+    ) {
         return 0;
     }
 
     const index = row * mineCOLS + col;
     const tile = tiles[index];
 
-    // Already revealed
-    if (tile.style.backgroundColor === "pink") {
+    if (
+        tile.dataset.revealed === "true" ||
+        tile.dataset.flagged === "true"
+    ) {
         return 0;
     }
 
-    // Bomb
     if (board[row][col] === -1) {
         return 0;
     }
 
-    // Reveal tile
+    tile.dataset.revealed = "true";
     tile.style.backgroundColor = "pink";
     tile.textContent = board[row][col];
 
     let revealed = 1;
 
-    // Stop if this is a numbered tile
     if (board[row][col] !== 0) {
         return revealed;
     }
 
-    // Spread to all neighbours
     for (let r = -1; r <= 1; r++) {
         for (let c = -1; c <= 1; c++) {
-
             if (r === 0 && c === 0) {
                 continue;
             }
@@ -731,10 +738,74 @@ function revealZeros(row, col, tiles) {
     }
 
     return revealed;
-};
+}
+
+
+function upgradeMinesweeperIcon() {
+    const icon = document.querySelector("#minesweeper img");
+
+    if (!icon) {
+        return;
+    }
+
+    const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="80" height="80" viewBox="0 0 80 80">
+            <rect x="7" y="7" width="66" height="66"
+                  fill="#c6c6c6" stroke="#555" stroke-width="3"/>
+            <rect x="13" y="13" width="54" height="12"
+                  fill="#2196f3"/>
+            <text x="40" y="22" font-size="10"
+                  fill="white" text-anchor="middle">WIN!</text>
+            <rect x="17" y="30" width="13" height="13"
+                  fill="#eee" stroke="#555"/>
+            <rect x="33" y="30" width="13" height="13"
+                  fill="#eee" stroke="#555"/>
+            <rect x="49" y="30" width="13" height="13"
+                  fill="#eee" stroke="#555"/>
+            <rect x="17" y="46" width="13" height="13"
+                  fill="#eee" stroke="#555"/>
+            <rect x="33" y="46" width="13" height="13"
+                  fill="#90caf9" stroke="#555"/>
+            <text x="39.5" y="57" font-size="12"
+                  fill="#174ea6" text-anchor="middle">2</text>
+            <rect x="49" y="46" width="13" height="13"
+                  fill="#eee" stroke="#555"/>
+        </svg>
+    `;
+
+    icon.src =
+        "data:image/svg+xml;charset=utf-8," +
+        encodeURIComponent(svg);
+    icon.alt = "Unlocked Minesweeper";
+}
+
+function completeMinesweeperStage(stage) {
+    if (completedMineStages[stage - 1]) {
+        return;
+    }
+
+    completedMineStages[stage - 1] = true;
+
+    if (stage === 1) {
+        console.log("STAGE 1 COMPLETE!");
+
+        upgradeMinesweeperIcon();
+        minesweeperStage = 2;
+
+        openApp("mineNote1Window");
+    } else {
+        console.log("STAGE 2 COMPLETE!");
+
+        openApp("mineNote2Window");
+    }
+}
 
 function minesweeperBoard() {
-    console.log("Building Minesweeper...");
+    console.log("Building Minesweeper Stage " + minesweeperStage);
+
+    const stage = minesweeperStage;
+    lastBuiltMineStage = stage;
 
     let gameStatus = true;
     let tilesRevealed = 0;
@@ -743,77 +814,88 @@ function minesweeperBoard() {
     actualBombs = 0;
 
     const list = document.getElementById("minesweeperContainer");
-
     list.innerHTML = "";
 
     for (let row = 0; row < mineROWS; row++) {
-        let newRow = [];
+        const newRow = [];
+
         for (let col = 0; col < mineCOLS; col++) {
             newRow.push(0);
 
-            let data_row = row;
-            let data_col = col;
-
             const div = document.createElement("div");
-
             div.classList.add("minecell");
 
+            div.dataset.revealed = "false";
+            div.dataset.flagged = "false";
+
             div.addEventListener("click", function () {
-
-                if (gameStatus === false) {
+                if (
+                    !gameStatus ||
+                    minesweeperStage !== stage ||
+                    div.dataset.revealed === "true" ||
+                    div.dataset.flagged === "true"
+                ) {
                     return;
-                };
-
-                console.log("its row is: " + data_row + " and its column is: " + data_col);
-                console.log("The value of this tile is: " + (board[data_row][data_col]));
-
-                if ((board[data_row][data_col]) === -1) {
-                    console.log("BOOM!");
-                    div.style.backgroundColor = 'red';
-                    gameStatus = false;
                 }
-                else {
-                    if (board[data_row][data_col] === 0) {
 
-                        tilesRevealed += revealZeros(
-                            data_row,
-                            data_col,
-                            tiles
-                        );
+                const value = board[row][col];
 
-                    } else {
+                if (value === -1) {
+                    div.style.backgroundColor = "red";
+                    div.textContent = "💣";
+                    gameStatus = false;
+                    console.log("BOOM! Game over.");
+                    return;
+                }
 
-                        if (div.style.backgroundColor !== 'pink') {
-                            div.style.backgroundColor = 'pink';
-                            div.textContent = board[data_row][data_col];
+                const tiles = list.querySelectorAll(".minecell");
 
-                            tilesRevealed++;
-                        }
-                    }
+                if (value === 0) {
+                    tilesRevealed += revealZeros(row, col, tiles);
+                } else {
+                    div.dataset.revealed = "true";
+                    div.style.backgroundColor = "pink";
+                    div.textContent = value;
+                    tilesRevealed++;
+                }
 
-                    if (tilesRevealed === (mineROWS * mineCOLS - actualBombs)) {
-                        gameStatus = false;
-                        console.log("YOU WIN!");
-                    }
+                if (
+                    tilesRevealed ===
+                    mineROWS * mineCOLS - actualBombs
+                ) {
+                    gameStatus = false;
+                    completeMinesweeperStage(stage);
+                }
+            });
 
-                };
+            div.addEventListener("contextmenu", function (event) {
+                event.preventDefault();
+
+                if (
+                    !gameStatus ||
+                    minesweeperStage !== stage ||
+                    stage !== 1 ||
+                    div.dataset.revealed === "true"
+                ) {
+                    return;
+                }
+
+                const isFlagged = div.dataset.flagged === "true";
+
+                div.dataset.flagged = String(!isFlagged);
+                div.textContent = isFlagged ? "" : "🚩";
+                div.style.backgroundColor = isFlagged ? "gray" : "#ffd966";
             });
 
             list.appendChild(div);
         }
 
         board.push(newRow);
-    };
+    }
 
-    const tiles = document.querySelectorAll(".minecell");
-
-    const bombCount = 40;
-    actualBombs = 0;
-
-    while (actualBombs < bombCount) {
-
-        let randomRow = Math.floor(Math.random() * 16);
-        let randomCol = Math.floor(Math.random() * 16);
+    while (actualBombs < mineBOMBS) {
+        const randomRow = Math.floor(Math.random() * mineROWS);
+        const randomCol = Math.floor(Math.random() * mineCOLS);
 
         if (board[randomRow][randomCol] === -1) {
             continue;
@@ -821,37 +903,53 @@ function minesweeperBoard() {
 
         board[randomRow][randomCol] = -1;
         actualBombs++;
-    };
+    }
 
     for (let row = 0; row < mineROWS; row++) {
         for (let col = 0; col < mineCOLS; col++) {
-            let bombsFound = 0;
-            if ((board[row][col]) === -1) {
+            if (board[row][col] === -1) {
                 continue;
-            } else {
-                let neighbourRow = 0;
-                let neighbourCol = 0;
+            }
 
-                for (let r = -1; r <= 1; r++) {
-                    for (let c = -1; c <= 1; c++) {
-                        neighbourRow = row + r;
-                        neighbourCol = col + c;
+            let bombsFound = 0;
 
-                        if (neighbourRow >= 0 && neighbourRow < 16 && neighbourCol >= 0 && neighbourCol < 16) {
-                            if ((board[neighbourRow][neighbourCol]) === -1) {
-                                bombsFound++;
-                            };
-                        };
+            for (let r = -1; r <= 1; r++) {
+                for (let c = -1; c <= 1; c++) {
+                    const neighbourRow = row + r;
+                    const neighbourCol = col + c;
+
+                    if (
+                        neighbourRow >= 0 &&
+                        neighbourRow < mineROWS &&
+                        neighbourCol >= 0 &&
+                        neighbourCol < mineCOLS &&
+                        board[neighbourRow][neighbourCol] === -1
+                    ) {
+                        bombsFound++;
                     }
                 }
-                (board[row][col]) = bombsFound;
             }
-        }
-    };
 
-    console.log(board);
-    console.log(actualBombs);
-    console.log(tilesRevealed);
-};
+            board[row][col] = bombsFound;
+        }
+    }
+
+    console.log("Board ready. Bombs:", actualBombs);
+}
+
+const minesweeperIcon = document.getElementById("minesweeper");
+
+if (minesweeperIcon) {
+    minesweeperIcon.addEventListener("dblclick", function () {
+        if (
+            lastBuiltMineStage !== minesweeperStage &&
+            !completedMineStages[minesweeperStage - 1]
+        ) {
+            minesweeperBoard();
+        }
+    });
+}
+
+minesweeperBoard();
 
 
