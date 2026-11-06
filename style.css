@@ -916,7 +916,6 @@ img#cover {
     height: 80px;
 }
 
-
 #minesweeperContainer {
     display: grid;
 
@@ -962,7 +961,6 @@ img#cover {
     width: 340px;
     min-height: 220px;
     background: #c6c6c6;
-    border: 3px solid #777;
     box-sizing: border-box;
     z-index: 10001;
 }
@@ -984,3 +982,4 @@ img#cover {
     margin: 0;
     cursor: pointer;
 }
+
