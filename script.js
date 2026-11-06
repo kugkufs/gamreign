@@ -737,6 +737,8 @@ document.addEventListener("mouseup", function (event) {
 
     dragging = null;
 });
+
+
 const mineROWS = 16;
 const mineCOLS = 16;
 const mineBOMBS = 40;
@@ -1009,5 +1011,3 @@ if (minesweeperIcon) {
 }
 
 minesweeperBoard();
-
-
